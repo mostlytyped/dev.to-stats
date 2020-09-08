@@ -1,36 +1,6 @@
 const axios = require("axios");
 const r = require("rethinkdb");
-
-let rdbConn = null;
-const rdbConnect = async function () {
-  try {
-    const conn = await r.connect({
-      host: process.env.RETHINKDB_HOST || "localhost",
-      port: process.env.RETHINKDB_PORT || 28015,
-      username: process.env.RETHINKDB_USERNAME || "admin",
-      password: process.env.RETHINKDB_PASSWORD || "",
-      db: process.env.RETHINKDB_NAME || "test",
-    });
-
-    // Handle close
-    conn.on("close", function (e) {
-      console.log("RDB connection closed: ", e);
-      rdbConn = null;
-    });
-
-    console.log("Connected to RethinkDB");
-    rdbConn = conn;
-    return conn;
-  } catch (err) {
-    throw err;
-  }
-};
-const getRethinkDB = async function () {
-  if (rdbConn != null) {
-    return rdbConn;
-  }
-  return await rdbConnect();
-};
+const getRethinkDB = require("./reql.js");
 
 const getArticles = async function () {
   let articles = [];
@@ -115,5 +85,7 @@ const saveStats = async function () {
   });
 };
 
-const interval = 6 * 60 * 60 * 1000; // Should be less than 24h. Running more than once a day is not a problem but a missed day cannot be recovered.
+// Interval should be less than 24h. Running more than once a day
+// is not a problem but a missed day cannot be recovered.
+const interval = 6 * 60 * 60 * 1000;
 setInterval(saveStats, interval);
