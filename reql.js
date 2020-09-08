@@ -24,11 +24,9 @@ const rdbConnect = async function () {
     throw err;
   }
 };
-const getRethinkDB = async function () {
+exports.getRethinkDB = async function () {
   if (rdbConn != null) {
     return rdbConn;
   }
   return await rdbConnect();
 };
-
-export default getRethinkDB;
