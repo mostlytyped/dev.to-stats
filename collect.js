@@ -115,5 +115,5 @@ const saveStats = async function () {
   });
 };
 
-const interval = 60 * 1000; // Should be less than 24h. Running more than once a day is not a problem but a missed day cannot be recovered.
+const interval = 6 * 60 * 60 * 1000; // Should be less than 24h. Running more than once a day is not a problem but a missed day cannot be recovered.
 setInterval(saveStats, interval);
