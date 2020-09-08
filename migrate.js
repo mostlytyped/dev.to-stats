@@ -10,41 +10,34 @@ r.connect(
     password: process.env.RETHINKDB_PASSWORD || "",
     db: process.env.RETHINKDB_NAME || "test",
   },
-  function (err, conn) {
+  async function (err, conn) {
     if (err) throw err;
+    console.log("Get table list");
+    let cursor = await r.tableList().run(conn);
+    let tables = await cursor.toArray();
 
-    r.tableList().run(conn, (err, cursor) => {
-      if (err) throw err;
-      cursor.toArray((err, tables) => {
-        if (err) throw err;
+    // Check if articles table exists
+    if (!tables.includes("articles")) {
+      // Table missing --> create
+      console.log("Creating articles table");
+      await r.tableCreate("articles").run(conn);
+      console.log("Creating articles table -- done");
+    }
 
-        // Check if articles table exists
-        if (!tables.includes("articles")) {
-          // Table missing --> create
-          console.log("Creating articles table");
-          r.tableCreate("articles").run(conn, (err, _) => {
-            if (err) throw err;
-            console.log("Creating articles table -- done");
-          });
-        }
+    // Check if stats table exists
+    if (!tables.includes("stats")) {
+      // Table missing --> create
+      console.log("Creating stats table");
+      await r.tableCreate("stats").run(conn);
+      console.log("Creating stats table -- done");
+      // Create index
+      await r
+        .table("stats")
+        .indexCreate("article_date", [r.row("article_id"), r.row("date")])
+        .run(conn);
+      console.log("Creating article-date secondary index -- done");
+    }
 
-        // Check if stats table exists
-        if (!tables.includes("stats")) {
-          // Table missing --> create
-          console.log("Creating stats table");
-          r.tableCreate("stats").run(conn, (err, _) => {
-            if (err) throw err;
-            console.log("Creating stats table -- done");
-            // Create index
-            r.table("stats")
-              .indexCreate("article_date", [r.row("article_id"), r.row("date")])
-              .run(conn, (err, _) => {
-                if (err) throw err;
-                console.log("Creating article-date secondary index -- done");
-              });
-          });
-        }
-      });
-    });
+    await conn.close();
   }
 );
