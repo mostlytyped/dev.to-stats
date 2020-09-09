@@ -16,6 +16,16 @@ const rdbConnect = async function () {
       console.log("RDB connection closed: ", e);
       rdbConn = null;
     });
+    // Handle error
+    conn.on("error", function (e) {
+      console.log("RDB connection error occurred: ", e);
+      conn.close();
+    });
+    // Handle timeout
+    conn.on("timeout", function (e) {
+      console.log("RDB connection timed out: ", e);
+      conn.close();
+    });
 
     console.log("Connected to RethinkDB");
     rdbConn = conn;
