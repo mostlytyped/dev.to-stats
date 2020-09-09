@@ -1,6 +1,6 @@
 const axios = require("axios");
 const r = require("rethinkdb");
-const getRethinkDB = require("./reql.js");
+const { getRethinkDB } = require("./reql.js");
 
 const getArticles = async function () {
   let articles = [];
