@@ -12,16 +12,19 @@ Before deploying to Heroku you need to do the following:
 - Go to [RethinkDB Cloud](https://www.rethinkdb.cloud/) and request free alpha access to the RethinkDB Cloud add-on.
 - Get an API key from Dev.to (Settings -> Account -> DEV API Keys)
 
-```bash
-git clone git@github.com:mostlytyped/dev.to-stats.git
-cd dev.to-stats/
-heroku create
-heroku addons:add rethinkdb
-heroku config:set API_KEY=<YOUR_DEV_TO_API_KEY>
-git push heroku master
+Now run:
+
+```sh
+$ git clone git@github.com:mostlytyped/dev.to-stats.git
+$ cd dev.to-stats/
+$ heroku create
+$ heroku addons:create rethinkdb
+$ heroku config:set API_KEY=<YOUR_DEV_TO_API_KEY>
+$ git push heroku master
+$ heroku open
 ```
 
-_Note: the collection worker needs to be enabled manually on the apps resources dashboard_
+> _Note: the collection worker needs to be enabled manually on the apps resources dashboard_
 
 ## Run locally
 
@@ -31,18 +34,18 @@ variable.
 
 ### Run migrations
 
-```bash
-node migrate.js
+```sh
+$ node migrate.js
 ```
 
 ### Run stats collection
 
-```bash
-node collect.js
+```sh
+$ node collect.js
 ```
 
 ## Run app
 
-```bash
-node index.js
+```sh
+$ node index.js
 ```
