@@ -1,3 +1,5 @@
+// reql.js
+
 const r = require("rethinkdb");
 
 let rdbConn = null;

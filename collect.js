@@ -1,7 +1,10 @@
+// collect.js
+
 const axios = require("axios");
 const r = require("rethinkdb");
 const { getRethinkDB } = require("./reql.js");
 
+// Get articles from dev.to
 const getArticles = async function () {
   let articles = [];
   let page = 1;
@@ -24,6 +27,7 @@ const getArticles = async function () {
   return articles;
 };
 
+// Save article stats to RethinkDB
 const saveStats = async function () {
   const now = new Date();
   let day = ("0" + now.getDate()).slice(-2);

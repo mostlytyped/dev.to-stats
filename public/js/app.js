@@ -59,7 +59,6 @@ const App = Vue.component("app", {
           return stat.views;
         })
       );
-      //   let color = randomColor();
       return {
         label: article.title,
         data: data,
@@ -111,7 +110,6 @@ const App = Vue.component("app", {
         },
       },
     };
-    // console.log("Add chart");
     let ctx = document.getElementById("chart").getContext("2d");
     this.chart = new Chart(ctx, chartConfig);
   },

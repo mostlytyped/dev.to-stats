@@ -1,0 +1,12 @@
+{
+  "name": "Dev.to Stats",
+  "description": "Collects and displays historical stats for dev.to articles",
+  "repository": "https://github.com/mostlytyped/dev.to-stats",
+  "keywords": ["node", "rethinkdb", "dev.to", "stats"],
+  "addons": [
+    "rethinkdb",
+    {
+      "plan": "test"
+    }
+  ]
+}
