@@ -80,6 +80,9 @@ const App = Vue.component("app", {
           display: true,
           text: "Dev.to Article Stats",
         },
+        legend: {
+          display: false,
+        },
         tooltips: {
           mode: "index",
           intersect: false,
